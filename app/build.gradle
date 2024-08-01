@@ -27,33 +27,48 @@ android {
         buildConfigField "String", "SPOTIFY_CLIENT_SECRET", "\"${properties.getProperty("SPOTIFY_CLIENT_SECRET")}\""
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'spootify'
+            keyPassword 'spotify'
+            storeFile file('spotify-clone.keystore.jks')
+            storePassword 'spotify'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
+
     compileOptions {
-        // To enable the use of java.time api's with minSdk < 26
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
     kotlinOptions {
         jvmTarget = '17'
     }
+
     buildFeatures {
         compose true
         buildConfig true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.3'
     }
+
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
     testOptions {
         unitTests {
             includeAndroidResources = true
@@ -94,7 +109,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    //noinspection GradleDependency
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     testImplementation "org.robolectric:robolectric:4.8.1"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
@@ -114,7 +128,6 @@ dependencies {
 
     //exoplayer
     implementation 'com.google.android.exoplayer:exoplayer-core:2.19.1'
-    // for PlayerNotificationManager
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.19.1'
 
     // paging
@@ -125,8 +138,5 @@ dependencies {
     implementation 'androidx.palette:palette-ktx:1.0.0'
 
     // mdc components for view
-    // This dependency is not needed once the min lines param
-    // for Text composable becomes available in compose
-    // This parameter is needed in the home screen
     implementation 'com.google.android.material:material:1.11.0'
 }
