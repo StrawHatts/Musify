@@ -30,7 +30,7 @@ jobs:
       uses: android-actions/setup-android@v3
 
     - name: Build Application
-      run: ./gradlew build
+      run: ./gradlew assembleRelease
 
     - name: Add APK to GitHub releases
       uses: marvinpinto/action-automatic-releases@latest
